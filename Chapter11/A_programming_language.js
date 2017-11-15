@@ -164,18 +164,23 @@ function run () {
   return evaluate(parse(program), env)
 }
 
+module.exports.run = run
+module.exports.topEnv = topEnv
 // Examples
-run(' do ( define ( total , 0) ,',
-'define ( count , 1) ,',
-'while ( <( count , 11) ,',
-'do ( define ( total , +( total , count )) ,',
-'define ( count , +( count , 1) ))) ,',
-'print ( total ) ) ')                            // 55
+// run(' do ( define ( total , 0) ,',
+// 'define ( count , 1) ,',
+// 'while ( <( count , 11) ,',
+// 'do ( define ( total , +( total , count )) ,',
+// 'define ( count , +( count , 1) ))) ,',
+// 'print ( total ) ) ')                            // 55
 
-let prog = parse('if(true, false, true)')
-console.log(evaluate(prog, topEnv))              // false
+// let prog = parse('if(true, false, true)')
+// console.log(evaluate(prog, topEnv))              // false
 
-run('do(define(plusOne, fun(a, +(a, 1))),',
-'   print(plusOne(10)))')                        // 11
+// run('do(define(plusOne, fun(a, +(a, 1))),',
+// '   print(plusOne(10)))')                        // 11
 
-run('+(a,2)')                                    // ReferenceError: Undefined variable: a
+// // run('+(a,2)')                                 // ReferenceError: Undefined variable: a
+
+// // console.log(parse('do(define(plusOne, fun(a, +(a, 1))),',
+// // '   print(plusOne(10)))'))
