@@ -164,7 +164,9 @@ function run () {
 }
 
 module.exports.run = run
+module.exports.evaluate = evaluate
 module.exports.topEnv = topEnv
+module.exports.specialForms = specialForms
 // Examples
 // run(' do ( define ( total , 0) ,',
 // 'define ( count , 1) ,',
