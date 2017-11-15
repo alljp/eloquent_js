@@ -20,18 +20,18 @@ function skipSpace (string) {
 
 function parseApply (expr, program) {
   program = skipSpace(program)
-  if (program[0] != '(') {
+  if (program[0] !== '(') {
     return {expr: expr, rest: program}
   }
   program = skipSpace(program.slice(1))
   expr = {type: 'apply', operator: expr, args: []}
-  while (program[0] != ')') {
+  while (program[0] !== ')') {
     let arg = parseExpression(program)
     expr.args.push(arg.expr)
     program = skipSpace(arg.rest)
-    if (program[0] == ',') {
+    if (program[0] === ',') {
       program = skipSpace(program.slice(1))
-    } else if (program[0] != ')') {
+    } else if (program[0] !== ')') {
       throw new SyntaxError("Expected ',' or ')'")
     }
   }
@@ -149,7 +149,7 @@ topEnv['true'] = true
 topEnv['false'] = false
 
 ops.forEach(function (op) {
-  topEnv[op] = new Function('a, b', 'return a ' + op + ' b;')
+  topEnv[op] = new Function('a, b', 'return a ' + op + ' b')
 })
 
 topEnv['print'] = function (value) {
