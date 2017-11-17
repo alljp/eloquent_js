@@ -45,6 +45,7 @@ function parse (program) {
   }
   return result.expr
 }
+// Parse output
 //    operator: {type: "word", name: "+"},
 //    args: [{type: "word", name: "a"},
 //           {type: "value", value: 10}]}
@@ -142,6 +143,22 @@ specialForms['fun'] = function (args, env) {
   }
 }
 
+specialForms['set'] = function (args, env) {
+  if (args.length !== 2 || args[0].type !== 'word') {
+    throw new SyntaxError('Bad use of set')
+  }
+  let varName = args[0].name
+  let value = evaluate(args[1], env)
+
+  for (let scope = env; scope; scope = Object.getPrototypeOf(scope)) {
+    if (Object.prototype.hasOwnProperty.call(scope, varName)) {
+      scope[varName] = value
+      return value
+    }
+  }
+  throw new ReferenceError('Setting undefined variable ' + varName)
+}
+
 let topEnv = Object.create(null)
 let ops = ['+', '-', '*', '/', '==', '<', '>']
 
@@ -155,6 +172,18 @@ ops.forEach(function (op) {
 topEnv['print'] = function (value) {
   console.log(value)
   return value
+}
+
+topEnv['array'] = function () {
+  return Array.prototype.slice.call(arguments, 0)
+}
+
+topEnv['length'] = function (array) {
+  return array.length
+}
+
+topEnv['element'] = function (array, i) {
+  return array[i]
 }
 
 function run () {
@@ -183,5 +212,21 @@ module.exports.specialForms = specialForms
 
 // // run('+(a,2)')                                 // ReferenceError: Undefined variable: a
 
-// // console.log(parse('do(define(plusOne, fun(a, +(a, 1))),',
-// // '   print(plusOne(10)))'))
+console.log(run('do(define(plusOne, fun(a, +(a, 1))),',
+'   print(plusOne(10)))'))
+
+run('do(define(sum, fun(array,',
+    '     do(define(i, 0),',
+    '        define(sum, 0),',
+    '        while(<(i, length(array)),',
+    '          do(define(sum, +(sum, element(array, i))),',
+    '             define(i, +(i, 1)))),',
+    '        sum))),',
+    '   print(sum(array(1, 2, 3))))')
+
+run('print(array(2,4,1))')
+
+run('do(define(x, 4),',
+    '  define(setx, fun(val, set(x, val))),',
+    '  setx(50),',
+    '  print(x))')
