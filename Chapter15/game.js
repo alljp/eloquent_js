@@ -133,3 +133,12 @@ DOMDisplay.prototype.drawActors = function () {
   })
   return wrap
 }
+
+DOMDisplay.prototype.drawFrame = function () {
+  if (this.actorLayer) {
+    this.wrap.removeChild(this.actorLayer)
+  }
+  this.actorLayer = this.wrap.appendChild(this.drawActors())
+  this.wrap.className = 'game' + (this.level.status || '')
+  this.scrollPlayerIntoView()
+}
