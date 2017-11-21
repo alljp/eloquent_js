@@ -142,3 +142,25 @@ DOMDisplay.prototype.drawFrame = function () {
   this.wrap.className = 'game' + (this.level.status || '')
   this.scrollPlayerIntoView()
 }
+
+DOMDisplay.prototype.scrollPlayerIntoView = function () {
+  let width = this.wrap.clientWidth
+  let height = this.wrap.clientHeight
+  let margin = width / 3
+  let left = this.wrap.scrollLeft
+  let right = left + width
+  let top = this.wrap.scrollTop
+  let bottom = top + height
+  let player = this.level.player
+  let centre = player.pos.plus(player.size.times(0.5)).times(scale)
+  if (centre.x < left + margin) {
+    this.wrap.scrollLeft = centre.x - margin
+  } else if (centre.x > right - margin) {
+    this.wrap.scrollLeft = centre.x + margin - width
+  }
+  if (centre.y < top + margin) {
+    this.wrap.scrollTop = centre.y - margin
+  } else if (centre.y > bottom - margin) {
+    this.wrap.scrollTop = centre.y + margin - height
+  }
+}
