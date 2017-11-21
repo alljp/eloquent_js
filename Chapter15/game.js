@@ -90,3 +90,11 @@ Lava.prototype.type = 'lava'
 // let simpleLevel = new Level(simpleLevelPlan)
 // console.log(simpleLevel)
 // console.log(simpleLevel.width, ' by ', simpleLevel.height)
+
+function elt (name, className) {
+  let elt = document.createElement(name)
+  if (className) {
+    elt.className = className
+  }
+  return elt
+}
