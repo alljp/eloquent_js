@@ -38,3 +38,11 @@ function Vector (x, y) {
     return new Vector(this.x * factor, this.y * factor)
   }
 }
+
+let actorChars = {
+  '@': Player,
+  'o': Coin,
+  '=': Lava,
+  '|': Lava,
+  'v': Lava
+}
