@@ -121,3 +121,15 @@ DOMDisplay.prototype.drawBackground = function () {
   })
   return table
 }
+
+DOMDisplay.prototype.drawActors = function () {
+  let wrap = elt('div')
+  this.level.actors.forEach(function (actor) {
+    let rect = wrap.appendChild(elt('div', 'actor ' + actor.type))
+    rect.style.width = actor.size.x * scale + 'px'
+    rect.style.height = actor.size.y * scale + 'px'
+    rect.style.left = actor.pos.x * scale + 'px'
+    rect.style.right = actor.pos.y * scale + 'px'
+  })
+  return wrap
+}
