@@ -106,3 +106,18 @@ function DOMDisplay (parent, level) {
   this.actorLayer = null
   this.drawFrame()
 }
+
+let scale = 20
+
+DOMDisplay.prototype.drawBackground = function () {
+  let table = elt('table', 'background')
+  table.style.width = this.level.width * scale + 'px'
+  this.level.grid.forEach(function (row) {
+    let rowElt = table.appendChild(elt('tr'))
+    rowElt.style.heght = scale + 'px'
+    row.forEach(function (type) {
+      rowElt.appendChild(elt('td', type))
+    })
+  })
+  return table
+}
