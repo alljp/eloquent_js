@@ -237,3 +237,23 @@ Coin.prototype.act = function (step) {
   let wobblePos = Math.sin(this.wobble) * wobbleDistance
   this.pos = this.basePos.plus(new Vector(0, wobblePos))
 }
+
+let playerXSpeed = 7
+
+Player.prototype.moveX = function (step, level, keys) {
+  this.speed.x = 0
+  if (keys.left) {
+    this.speed.x -= playerXSpeed
+  }
+  if (keys.right) {
+    this.speed.x += playerXSpeed
+  }
+  let motion = new Vector(this.speed.x * step, 0)
+  let newPos = this.pos.plus(motion)
+  let obstacle = level.obstacleAt(newPos, this.size)
+  if (obstacle) {
+    level.playerTouched(obstacle)
+  } else {
+    this.pos = newPos
+  }
+}
