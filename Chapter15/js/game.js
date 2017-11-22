@@ -43,12 +43,12 @@ function Level (plan) {
 function Vector (x, y) {
   this.x = x
   this.y = y
-  Vector.prototype.plus = function (other) {
-    return new Vector(this.x + other.x, this.y + other.y)
-  }
-  Vector.prototype.times = function (factor) {
-    return new Vector(this.x * factor, this.y * factor)
-  }
+}
+Vector.prototype.plus = function (other) {
+  return new Vector(this.x + other.x, this.y + other.y)
+}
+Vector.prototype.times = function (factor) {
+  return new Vector(this.x * factor, this.y * factor)
 }
 
 let actorChars = {
@@ -114,7 +114,7 @@ DOMDisplay.prototype.drawBackground = function () {
   table.style.width = this.level.width * scale + 'px'
   this.level.grid.forEach(function (row) {
     let rowElt = table.appendChild(elt('tr'))
-    rowElt.style.heght = scale + 'px'
+    rowElt.style.height = scale + 'px'
     row.forEach(function (type) {
       rowElt.appendChild(elt('td', type))
     })
@@ -129,7 +129,7 @@ DOMDisplay.prototype.drawActors = function () {
     rect.style.width = actor.size.x * scale + 'px'
     rect.style.height = actor.size.y * scale + 'px'
     rect.style.left = actor.pos.x * scale + 'px'
-    rect.style.right = actor.pos.y * scale + 'px'
+    rect.style.top = actor.pos.y * scale + 'px'
   })
   return wrap
 }
