@@ -257,3 +257,23 @@ Player.prototype.moveX = function (step, level, keys) {
     this.pos = newPos
   }
 }
+
+let gravity = 30
+let jumpSpeed = 17
+
+Player.prototype.moveY = function (step, level, keys) {
+  this.speed.y += step * gravity
+  let motion = new Vector(0, this.speed.y * step)
+  let newPos = this.pos.plus(motion)
+  let obstacle = level.obstacleAt(newPos, this.size)
+  if (obstacle) {
+    level.playerTouched(obstacle)
+    if (keys.up && this.speed.y > 0) {
+      this.speed.y = -jumpSpeed
+    } else {
+      this.speed.y = 0
+    }
+  } else {
+    this.pos = newPos
+  }
+}
