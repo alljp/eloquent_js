@@ -168,3 +168,24 @@ DOMDisplay.prototype.scrollPlayerIntoView = function () {
 DOMDisplay.prototype.clear = function () {
   this.wrap.parentNode.removeChild(this.wrap)
 }
+
+Level.prototype.obstacleAt = function (pos, size) {
+  let xStart = Math.floor(pos.x)
+  let xEnd = Math.ceil(pos.x + size.x)
+  let yStart = Math.floor(pos.y)
+  let yEnd = Math.ceil(pos.y + size.y)
+  if (xStart < 0 || xEnd > this.width || yStart < 0) {
+    return 'wall'
+  }
+  if (yEnd > this.height) {
+    return 'lava'
+  }
+  for (let y = yStart; y < yEnd; y++) {
+    for (let x = xStart; x < xEnd; x++) {
+      let fieldType = this.grid[y][x]
+      if (fieldType) {
+        return fieldType
+      }
+    }
+  }
+}
