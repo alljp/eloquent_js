@@ -217,3 +217,14 @@ Level.prototype.animate = function (step, keys) {
     step -= thisStep
   }
 }
+
+Lava.prototype.act = function (step, level) {
+  let newPos = this.pos.plus(this.speed.times(step))
+  if (!level.obstacleAt(newPos, this.size)) {
+    this.pos = newPos
+  } else if (this.repeatPos) {
+    this.pos = this.repeatPos
+  } else {
+    this.speed = this.speed.times(-1)
+  }
+}
