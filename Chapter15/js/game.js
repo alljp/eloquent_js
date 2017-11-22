@@ -321,3 +321,19 @@ function trackKeys (codes) {
   addEventListener('keyup', handler)
   return pressed
 }
+
+function runAnimation (frameFunc) {
+  let lastTime = null
+  function frame (time) {
+    let stop = false
+    if (lastTime !== null) {
+      let timeStep = Math.min(time - lastTime, 100) / 1000
+      stop = frameFunc(timeStep) === false
+    }
+    lastTime = time
+    if (!stop) {
+      requestAnimationFrame(frame)
+    }
+  }
+  requestAnimationFrame(frame)
+}
