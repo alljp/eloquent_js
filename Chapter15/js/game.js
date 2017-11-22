@@ -202,3 +202,18 @@ Level.prototype.actorAt = function (actor) {
     }
   }
 }
+
+let maxStep = 0.05
+
+Level.prototype.animate = function (step, keys) {
+  if (this.status !== null) {
+    this.finishDelay -= step
+  }
+  while (step > 0) {
+    let thisStep = Math.min(step, maxStep)
+    this.actors.forEach(function (actor) {
+      actor.act(thisStep, this, keys)
+    }, this)
+    step -= thisStep
+  }
+}
