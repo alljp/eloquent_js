@@ -277,3 +277,16 @@ Player.prototype.moveY = function (step, level, keys) {
     this.pos = newPos
   }
 }
+
+Player.prototype.act = function (step, level, keys) {
+  this.moveX(step, level, keys)
+  this.moveY(step, level, keys)
+  let otherActor = level.actorAt(this)
+  if (otherActor) {
+    level.playerTouched(otherActor.type, otherActor)
+  }
+  if (level.status === 'lost') {
+    this.pos.y += step
+    this.size.y -= step
+  }
+}
