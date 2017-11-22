@@ -337,3 +337,24 @@ function runAnimation (frameFunc) {
   }
   requestAnimationFrame(frame)
 }
+
+const arrowCodes = {37: 'left',
+  38: 'up',
+  39: 'right'}
+
+let arrows = trackKeys(arrowCodes)
+
+function runLevel (level, Display, andThen) {
+  let display = new Display(document.body, level)
+  runAnimation(function (step) {
+    level.animate(step, arrows)
+    display.drawFrame(step)
+    if (level.isFinished()) {
+      display.clear()
+      if (andThen) {
+        andThen(level.status)
+      }
+      return false
+    }
+  })
+}
