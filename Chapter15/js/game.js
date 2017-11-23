@@ -372,8 +372,10 @@ function runGame (plans, Display) {
           startLevel(n, lives - 1)
         } else {
           console.log('Game Over')
+          startLevel(0, LIVES)
         }
       } else if (n < plans.length - 1) {
+        console.log('Finished level ', n)
         startLevel(n + 1, lives)
       } else {
         console.log('You win')
