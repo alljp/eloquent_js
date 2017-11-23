@@ -5,13 +5,17 @@
     <link rel='stylesheet' href='css/game.css'>
   </head>
   <body>
-  	<script src='js/game.js'></script>
-  	<script>      
+  	<script type="text/javascript" src='js/game_levels.js'></script>
+  	<script type="text/javascript" src='js/game.js'></script>
+  	<!-- <script>      
       console.log(simpleLevelPlan)
       let simpleLevel = new Level(simpleLevelPlan)
       console.log(simpleLevel)
       let display = new DOMDisplay(document.body, simpleLevel)
       console.log(display)
-  	</script>
+  	</script> -->
+  	<script>
+      runGame(GAME_LEVELS, DOMDisplay)
+    </script>
   </body>
 </html>
