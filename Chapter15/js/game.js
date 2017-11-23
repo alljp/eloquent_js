@@ -1,14 +1,14 @@
-let simpleLevelPlan = [
-  '                      ',
-  '                      ',
-  '  x              = x  ',
-  '  x         o o    x  ',
-  '  x @      xxxxx   x  ',
-  '  xxxxx            x  ',
-  '      x!!!!!!!!!!!!x  ',
-  '      xxxxxxxxxxxxxx  ',
-  '                      '
-]
+// let simpleLevelPlan = [
+//   '                      ',
+//   '                      ',
+//   '  x              = x  ',
+//   '  x         o o    x  ',
+//   '  x @      xxxxx   x  ',
+//   '  xxxxx            x  ',
+//   '      x!!!!!!!!!!!!x  ',
+//   '      xxxxxxxxxxxxxx  ',
+//   '                      '
+// ]
 
 function Level (plan) {
   this.width = plan[0].length
@@ -363,19 +363,22 @@ function runLevel (level, Display, andThen) {
   })
 }
 
+const LIVES = 3
 function runGame (plans, Display) {
-  function startLevel (n) {
+  function startLevel (n, lives) {
     runLevel(new Level(plans[n]), Display, function (status) {
       if (status === 'lost') {
-        startLevel(n)
+        if (lives > 1) {
+          startLevel(n, lives - 1)
+        } else {
+          console.log('Game Over')
+        }
       } else if (n < plans.length - 1) {
-        startLevel(n + 1)
+        startLevel(n + 1, lives)
       } else {
         console.log('You win')
       }
     })
   }
-  startLevel(0)
+  startLevel(0, LIVES)
 }
-
-runGame(GAME_LEVELS, DOMDisplay)
