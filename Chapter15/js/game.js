@@ -308,6 +308,10 @@ Level.prototype.playerTouched = function (type, actor) {
   }
 }
 
+Level.prototype.isFinished = function () {
+  return this.status != null && this.finishDelay < 0
+}
+
 function trackKeys (codes) {
   let pressed = Object.create(null)
   function handler (event) {
@@ -373,3 +377,5 @@ function runGame (plans, Display) {
   }
   startLevel(0)
 }
+
+runGame(GAME_LEVELS, DOMDisplay)
