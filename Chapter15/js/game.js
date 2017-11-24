@@ -323,6 +323,10 @@ function trackKeys (codes) {
   }
   addEventListener('keydown', handler)
   addEventListener('keyup', handler)
+  pressed.unregister = function () {
+    removeEventListener('keydown', handler)
+    removeEventListener('keyup', handler)
+  }
   return pressed
 }
 
@@ -346,21 +350,42 @@ const arrowCodes = {37: 'left',
   38: 'up',
   39: 'right'}
 
-let arrows = trackKeys(arrowCodes)
-
 function runLevel (level, Display, andThen) {
   let display = new Display(document.body, level)
-  runAnimation(function (step) {
+  let running = 'yes'
+  function handleKey (event) {
+    if (event.keyCode === 27) {
+      if (running === 'no') {
+        running = 'yes'
+        runAnimation(animation)
+      } else if (running === 'pausing') {
+        running = 'yes'
+      } else if (running === 'yes') {
+        running = 'pausing'
+      }
+    }
+  }
+  addEventListener('keydown', handleKey)
+  let arrows = trackKeys(arrowCodes)
+
+  function animation (step) {
+    if (running === 'pausing') {
+      running = 'no'
+      return false
+    }
+
     level.animate(step, arrows)
     display.drawFrame(step)
     if (level.isFinished()) {
       display.clear()
-      if (andThen) {
-        andThen(level.status)
-      }
+      // Here we remove all our event handlers
+      removeEventListener('keydown', handleKey)
+      arrows.unregister() // (see change to trackKeys below)
+      if (andThen) { andThen(level.status) }
       return false
     }
-  })
+  }
+  runAnimation(animation)
 }
 
 const LIVES = 3
